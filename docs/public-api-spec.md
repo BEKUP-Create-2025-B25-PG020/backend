@@ -347,9 +347,7 @@ https://mantra.aerossky.com/api/v1
 
 **Request Body:**
 ```json
-{
-  "device_id": "device_abc123xyz"
-}
+{}
 ```
 
 **Response:**
@@ -361,47 +359,6 @@ https://mantra.aerossky.com/api/v1
     "likes_count": 157
   },
   "meta": null
-}
-```
-
-favorites?device_id=device_abc123xyz`
-
-**Query Parameters:**
-- `device_id` (required): Unique device identifier
-- `page` (optional): Page number (default: 1)
-- `per_page` (optional): Items per page (default: 10)
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Favorite foods retrieved successfully",
-  "data": [
-    {
-      "id": 1,
-      "name": "Gudeg Yogya",
-      "slug": "gudeg-yogya",
-      "short_description": "Makanan khas Yogyakarta yang berbuat dari nangka muda",
-      "main_image_url": "https://mantra.aerossky.com/storage/foods/gudeg.jpg",
-      "likes_count": 156,
-      "region": {
-        "id": 1,
-        "region_name": "Yogyakarta",
-        "province": "DI Yogyakarta"
-      },
-      "category": {
-        "id": 1,
-        "name": "Makanan Pokok"
-      }
-    }
-  ],
-  "meta": {
-    "current_page": 1,
-    "total_pages": 2,
-    "per_page": 10,
-    "total_items": 15,
-    "has_next": true
-  }
 }
 ```
 
@@ -467,8 +424,8 @@ ORDER BY
   "meta": null,
   "errors": [
     {
-      "field": "device_id",
-      "message": "Device ID is required"
+      "field": "q",
+      "message": "Search query is required"
     }
   ]
 }
@@ -477,14 +434,6 @@ ORDER BY
 ---
 
 ## 📝 NOTES FOR FRONTEND TEAM
-
-### Device ID Generation
-Frontend perlu generate unique device ID dan simpan di localStorage:
-```dart
-// Example Dart code
-String deviceId = await DeviceInfo().androidId ?? 'fallback_id';
-SharedPreferences.setString('device_id', deviceId);
-```
 
 ### Image Handling
 - Semua image URL sudah full path
@@ -506,6 +455,11 @@ SharedPreferences.setString('device_id', deviceId);
 - Display `message` to user
 - `errors` array untuk detailed validation errors
 
+### Like System
+- Simple increment system - no duplicate prevention
+- POST request ke `/foods/{id}/like` tanpa body
+- Response berisi updated `likes_count`
+
 ---
 
 ## 🔄 CHANGELOG
@@ -513,5 +467,5 @@ SharedPreferences.setString('device_id', deviceId);
 ### Version 1.0.0 (Current)
 - Initial API specification
 - All basic CRUD operations
-- Like and favorite functionality
+- Simple like functionality
 - Pagination support
