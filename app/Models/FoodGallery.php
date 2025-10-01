@@ -32,4 +32,20 @@ class FoodGallery extends Model
     {
         return $query->where('main_photo', false);
     }
+
+    // Tambahkan method ini di class Food
+    public function getMainImageUrlAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        // Jika sudah full URL, return as is
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        }
+
+        // Tambahkan base URL
+        return config('app.url') . $value;
+    }
 }

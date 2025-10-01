@@ -158,4 +158,23 @@ class Food extends Model
     {
         return $this->likes_count > 100;
     }
+
+
+    /**
+     * Accessor for main_image_url to return full URL
+     */
+    public function getMainImageUrlAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        // Jika sudah full URL (http/https), return as is
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        }
+
+        // Tambahkan base URL dari config
+        return config('app.url') . $value;
+    }
 }
