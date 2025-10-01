@@ -1,61 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍜 Mantra API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Mantra** adalah API untuk eksplorasi makanan tradisional Indonesia. API ini menyediakan data lengkap tentang makanan khas dari berbagai daerah di Indonesia beserta sejarah, fakta menarik, dan galeri foto.
 
-## About Laravel
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=flat&logo=laravel)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=flat&logo=php)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Search & Filter** - Pencarian makanan berdasarkan nama, kategori, atau daerah
+- **Featured Foods** - Makanan unggulan untuk home screen
+- **Detail Information** - Info lengkap tentang sejarah dan fakta makanan
+- **Gallery** - Multiple foto untuk setiap makanan
+- **Like System** - Sistem like untuk makanan favorit
+- **Regional Data** - Data lengkap daerah asal makanan
+- **Category Management** - Kategorisasi makanan tradisional
+- **Pagination** - Support pagination untuk performa optimal
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📚 Documentation
 
-## Learning Laravel
+Dokumentasi lengkap API tersedia di file [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Base URL
+```
+https://mantra.aerossky.com/api/v1
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Quick Examples
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Get Featured Foods:**
+```bash
+GET /api/v1/foods/featured
+```
 
-## Laravel Sponsors
+**Search Foods:**
+```bash
+GET /api/v1/foods/search?q=gudeg
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Get Food Detail:**
+```bash
+GET /api/v1/foods/1
+```
 
-### Premium Partners
+**Like a Food:**
+```bash
+POST /api/v1/foods/1/like
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🛠️ Tech Stack
 
-## Contributing
+- **Framework:** Laravel 11.x
+- **Database:** MySQL
+- **PHP Version:** 8.2+
+- **Authentication:** Sanctum (optional untuk future features)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📦 Installation
 
-## Code of Conduct
+### Prerequisites
+- PHP 8.2 or higher
+- Composer
+- MySQL 8.0 or higher
+- Node.js & NPM (untuk asset compilation)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Setup
 
-## Security Vulnerabilities
+1. **Clone repository**
+```bash
+git clone https://github.com/yourusername/mantra-api.git
+cd mantra-api
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Install dependencies**
+```bash
+composer install
+```
 
-## License
+3. **Environment configuration**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Configure database di `.env`**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mantra_db
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+5. **Run migrations & seeders**
+```bash
+php artisan migrate --seed
+```
+
+6. **Storage link**
+```bash
+php artisan storage:link
+```
+
+7. **Start development server**
+```bash
+php artisan serve
+```
+
+API akan berjalan di `http://localhost:8000`
+
+## 🗄️ Database Structure
+
+### Main Tables
+- `foods` - Data makanan tradisional
+- `regions` - Data daerah/wilayah
+- `categories` - Kategori makanan
+- `galleries` - Galeri foto makanan
+
+Lihat file migrations untuk struktur detail.
+
+## 🧪 Testing
+
+Run tests dengan command:
+```bash
+php artisan test
+```
+
+## 📱 API Response Format
+
+### Success Response
+```json
+{
+  "success": true,
+  "message": "Data retrieved successfully",
+  "data": {...},
+  "meta": {...}
+}
+```
+
+### Error Response
+```json
+{
+  "success": false,
+  "message": "Error message",
+  "data": null,
+  "meta": null,
+  "errors": [...]
+}
+```
+
+## 🔐 Security
+
+- Input validation pada semua endpoints
+- SQL injection protection via Eloquent ORM
+- XSS protection via Laravel sanitization
+- CORS configuration untuk frontend access
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- **Risky Goh** - *Initial work* - [@Aerossky](https://github.com/Aerossky)
+
+## 🙏 Acknowledgments
+
+- Data makanan tradisional dari berbagai sumber terpercaya
+- Laravel community untuk framework yang amazing
+- Semua kontributor yang telah membantu project ini
+
+## 📧 Contact
+
+Project Link: [https://github.com/yourusername/mantra-api](https://github.com/yourusername/mantra-api)
+
+API Documentation: [https://mantra.aerossky.com/docs](https://mantra.aerossky.com/docs)
+
+---
+
+**Made with ❤️ for Indonesian Traditional Food**
