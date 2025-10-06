@@ -30,7 +30,7 @@ class Food extends Model
         'view_count' => 'integer'
     ];
 
-    protected $with = ['region', 'category']; // Eager load by default
+    protected $with = ['region', 'category'];
 
     // ===========================
     // RELATIONSHIPS
@@ -100,17 +100,11 @@ class Food extends Model
     // METHODS
     // ===========================
 
-    /**
-     * Increment view count
-     */
     public function incrementViewCount()
     {
         $this->increment('view_count');
     }
 
-    /**
-     * Increment like count
-     */
     public function incrementLikeCount()
     {
         $this->increment('likes_count');
@@ -124,14 +118,12 @@ class Food extends Model
     {
         parent::boot();
 
-        // Auto-generate slug when creating
         static::creating(function ($food) {
             if (empty($food->slug)) {
                 $food->slug = Str::slug($food->name);
             }
         });
 
-        // Update slug when name changes
         static::updating(function ($food) {
             if ($food->isDirty('name')) {
                 $food->slug = Str::slug($food->name);
@@ -143,25 +135,18 @@ class Food extends Model
     // ACCESSORS
     // ===========================
 
-    /**
-     * Get short excerpt from long description
-     */
     public function getExcerptAttribute()
     {
         return Str::limit($this->long_description, 150);
     }
 
-    /**
-     * Check if food is popular (likes > 100)
-     */
     public function getIsPopularAttribute()
     {
         return $this->likes_count > 100;
     }
 
-
     /**
-     * Accessor for main_image_url to return full URL
+     * ✅ Override main_image_url untuk return full URL
      */
     public function getMainImageUrlAttribute($value)
     {
@@ -169,12 +154,12 @@ class Food extends Model
             return null;
         }
 
-        // Jika sudah full URL (http/https), return as is
+        // Jika sudah full URL, return as is
         if (str_starts_with($value, 'http')) {
             return $value;
         }
 
-        // Tambahkan base URL dari config
+        // Tambahkan base URL dari ENV
         return config('app.url') . $value;
     }
 }

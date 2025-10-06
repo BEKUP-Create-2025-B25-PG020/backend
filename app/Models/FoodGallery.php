@@ -33,8 +33,10 @@ class FoodGallery extends Model
         return $query->where('main_photo', false);
     }
 
-    // Tambahkan method ini di class Food
-    public function getMainImageUrlAttribute($value)
+    /**
+     * ✅ Override image_url untuk return full URL
+     */
+    public function getImageUrlAttribute($value)
     {
         if (!$value) {
             return null;
@@ -45,7 +47,7 @@ class FoodGallery extends Model
             return $value;
         }
 
-        // Tambahkan base URL
+        // Tambahkan base URL dari ENV
         return config('app.url') . $value;
     }
 }
