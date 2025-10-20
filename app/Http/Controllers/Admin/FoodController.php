@@ -107,6 +107,11 @@ class FoodController extends Controller
      */
     public function update(Request $request, Food $food)
     {
+        // Set is_featured to 0 if not present
+        $request->merge([
+            'is_featured' => $request->has('is_featured') ? 1 : 0
+        ]);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'region_id' => 'required|exists:regions,id',
@@ -116,6 +121,7 @@ class FoodController extends Controller
             'food_history' => 'nullable|string',
             'interesting_facts' => 'nullable|string',
             'main_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'is_featured' => 'boolean'
         ]);
 
@@ -132,6 +138,34 @@ class FoodController extends Controller
             $imageName = time() . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->storeAs('foods', $imageName, 'public');
             $validated['main_image_url'] = '/storage/' . $imagePath;
+        }
+
+        // Handle gallery deletion
+        if ($request->filled('delete_gallery_ids')) {
+            $deleteIds = explode(',', $request->delete_gallery_ids);
+            foreach ($deleteIds as $galleryId) {
+                $gallery = $food->galleries()->find($galleryId);
+                if ($gallery) {
+                    // Delete image file
+                    $path = str_replace('/storage/', '', $gallery->image_url);
+                    Storage::disk('public')->delete($path);
+                    // Delete record
+                    $gallery->delete();
+                }
+            }
+        }
+
+        // Handle new gallery images upload
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $index => $image) {
+                $galleryName = time() . '_gallery_' . $index . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+                $galleryPath = $image->storeAs('galleries', $galleryName, 'public');
+
+                $food->galleries()->create([
+                    'image_url' => '/storage/' . $galleryPath,
+                    'main_photo' => false
+                ]);
+            }
         }
 
         // Update food
