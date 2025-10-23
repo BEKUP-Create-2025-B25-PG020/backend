@@ -29,6 +29,9 @@ Route::prefix('v1')->middleware(ValidateApiKey::class)->group(function () {
 
         // Like food
         Route::post('/foods/{id}/like', 'like');
+
+        // Unlike food
+        Route::post('/foods/{id}/unlike', 'unlike');
     });
 
     // ===========================

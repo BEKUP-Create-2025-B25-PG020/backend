@@ -189,4 +189,32 @@ class FoodController extends BaseController
             return $this->sendError('Failed to like food', [], 500);
         }
     }
+
+    /**
+     * Unlike food (simple decrement)
+     * POST /api/v1/foods/{id}/unlike
+     */
+    public function unlike($id)
+    {
+        try {
+            $food = Food::find($id);
+
+            if (!$food) {
+                return $this->sendError('Food not found', [
+                    ['field' => 'id', 'message' => "Food with ID {$id} not found"]
+                ], 404);
+            }
+
+            // Prevent negative likes count
+            if ($food->likes_count > 0) {
+                $food->decrementLikeCount();
+            }
+
+            return $this->sendResponse([
+                'likes_count' => $food->fresh()->likes_count
+            ], 'Food unliked successfully');
+        } catch (\Exception $e) {
+            return $this->sendError('Failed to unlike food', [], 500);
+        }
+    }
 }

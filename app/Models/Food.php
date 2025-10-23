@@ -110,6 +110,14 @@ class Food extends Model
         $this->increment('likes_count');
     }
 
+    public function decrementLikeCount()
+    {
+        // Prevent negative count
+        if ($this->likes_count > 0) {
+            $this->decrement('likes_count');
+        }
+    }
+
     // ===========================
     // EVENTS (Auto-generate slug)
     // ===========================
